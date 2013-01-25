@@ -226,10 +226,27 @@ class cliprz
      * @note about $class variable file name in system library directory must be same class name,
      *  do not forget all file names and class name in system library must be lowercase characters,
      *  As an example : file name (cliprz.php), class name (cliprz).
+     * 
+     *  Use : cliprz::library_use("application","refresh_page","refresh_page");
+     *  Use : cliprz::library_use("system","refresh_page","refresh_page");
      */
-    public static function library_use($directory,$class)
+    public static function library_use($type_library,$directory,$class)
     {
-        $include_path = SYS_PATH."libraries".DS.c_trim_path($directory).DS.$class.'.php';
+    	
+   	if($type_library == "system")
+        {
+            $include_path = SYS_PATH."libraries".DS.c_trim_path($directory).DS.$class.'.php';            
+
+        }
+        elseif($type_library == "application")
+        {
+            $include_path = APP_PATH."libraries".DS.c_trim_path($directory).DS.$class.'.php';            
+        }
+        else
+        {
+            $include_path = NULL;
+        }
+    
 
         if (file_exists($include_path))
         {
@@ -241,7 +258,7 @@ class cliprz
         }
         else
         {
-            trigger_error($include_path.' library not found in cliprz system libraries.');
+            trigger_error($include_path.' library not found in cliprz folder cliprz_'.$type_library.' libraries.');
         }
     }
 
